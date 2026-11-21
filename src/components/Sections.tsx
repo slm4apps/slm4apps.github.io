@@ -12,6 +12,9 @@ const TERRAVILLE_REPO = 'https://github.com/slm4apps/terraville'
 const TERRAVILLE_HF = 'https://huggingface.co/slm4apps/Terraville'
 const TERRAVILLE_DEMO = 'https://huggingface.co/spaces/slm4apps/Terraville'
 const MARIS3D = 'https://slm4apps.github.io/maris3d/'
+const TERRAVILLE_PAGE = 'https://slm4apps.github.io/terraville/'
+const SCENEBENCH = 'https://github.com/slm4apps/scenebench'
+const REPRISE = 'https://github.com/slm4apps/reprise'
 const reduced = () => typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches
 
 function Reveal({ children, delay = 0 }: { children: ReactNode; delay?: number }) {
@@ -67,7 +70,7 @@ const CARDS = [
     back: (
       <>
         <div className="sizebar"><i /></div>
-        <p>The first model has 0.5 billion parameters. Its main file is 531 MB and it needs about 0.58 GB of memory to run.</p>
+        <p>The first model has 0.5 billion parameters. Its base file is 531 MB, and on an 8 GB Mac it uses about 0.58 GB of memory.</p>
       </>
     ),
   },
@@ -78,7 +81,7 @@ const CARDS = [
     back: (
       <>
         <div className="icon"><WifiOff /></div>
-        <p>It runs on an 8 GB laptop with no network, no account and no API key. On an 8 GB Mac an answer takes about 0.6 seconds and a cold load 1.3 seconds. Your prompts and your files stay on your machine.</p>
+        <p>It runs on an 8 GB laptop with no network, no account and no API key. On an 8 GB Mac one answer takes about 0.6 seconds. Your prompts and your files stay on your machine.</p>
       </>
     ),
   },
@@ -251,31 +254,43 @@ function TiltCard() {
 
 function Family() {
   return (
-    <Section id="family" n="03 / products" title="One model per app. Two are on the shelf.">
+    <Section id="family" n="02 / our models" title="One small model per app.">
       <div className="shelf">
-        <Reveal><TiltCard /></Reveal>
+        <Reveal>
+          <a className="model-card live" href={MARIS3D}>
+            <img src={`${BASE}brand/maris3d-icon.svg`} width={64} height={64} alt="" />
+            <span className="status">Live</span>
+            <b>Maris3D, for Blender</b>
+            <span>A 0.5B model and a copilot add-on that build and edit Blender scenes by calling Blender tools. Offline.</span>
+            <em>Open the Maris3D page</em>
+          </a>
+        </Reveal>
         <Reveal delay={0.1}>
-          <a className="model-card live" href={TERRAVILLE_DEMO}>
+          <a className="model-card live" href={TERRAVILLE_PAGE}>
             <img src={`${BASE}brand/terraville-icon.svg`} width={64} height={64} alt="" />
             <span className="status">Live</span>
             <b>Terraville, an open-world model</b>
             <span>A 5.86 million parameter model that turns words into worlds, items and styles. It runs in the page, with no server. Words in. Worlds out.</span>
-            <em>Try the demo</em>
+            <em>Open the Terraville page</em>
           </a>
         </Reveal>
-        {[1, 2].map((i) => (
-          <Reveal key={i} delay={0.1 * (i + 1)}>
-            <div className="model-card empty" aria-label="An empty slot for the next model">
-              <span className="status">Next</span>
-              <b>Not yet named</b>
-              <span>Empty on purpose. A slot opens only when a model passes its own tests.</span>
-            </div>
-          </Reveal>
-        ))}
+        <Reveal delay={0.2}>
+          <div className="model-card empty">
+            <span className="status">Coming soon</span>
+            <b>SLM4Apps SceneBench 1.0</b>
+            <span>One yardstick for small models that build scenes with tools: 4,245 items, every score measured and shown with its set size.</span>
+            <em>Results soon</em>
+          </div>
+        </Reveal>
+        <Reveal delay={0.3}>
+          <div className="model-card empty">
+            <span className="status">Planned</span>
+            <b>Reprise</b>
+            <span>A way to record a checked tool-call session and run it again. Today there is one recorded sample and a written plan.</span>
+            <em>Planned</em>
+          </div>
+        </Reveal>
       </div>
-      <Reveal>
-        <p className="small">Independent community project. Blender is a trademark of the Blender Foundation; we are not affiliated with it.</p>
-      </Reveal>
     </Section>
   )
 }
@@ -284,7 +299,7 @@ function Family() {
 
 const STEPS = [
   { h: 'Start from a small base', t: 'Qwen2.5-Coder-0.5B-Instruct, an open model from the Qwen team, used as the starting point.' },
-  { h: 'Teach it one app\'s tools', t: 'Small adapters are trained on top of the base so it learns the tools of one app and nothing else.' },
+  { h: 'Teach it one app', t: 'A small add-on file teaches the base model the tools of that app, and nothing else.' },
   { h: 'Let code do the exact work', t: 'The model plans in words. Code computes positions and sizes and makes each part, so the numbers are exact.' },
   { h: 'Check the result in the app', t: 'Every call runs in the real app, and a check reads the finished scene back and corrects it.' },
   { h: 'Report it plainly', t: 'Results, limits and failures are written in the release notes, with how each was measured.' },
@@ -292,7 +307,7 @@ const STEPS = [
 
 function Timeline() {
   return (
-    <Section id="build" n="04 / how we build" title="From a small base to a working copilot.">
+    <Section id="build" n="03 / how we build" title="How Maris3D is built.">
       <ol className="timeline">
         {STEPS.map((s, i) => (
           <motion.li key={s.h} initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.6, delay: 0.05 }}>
@@ -308,15 +323,15 @@ function Timeline() {
 }
 
 const WORK = [
-  { h: 'Maris3D, next version', t: 'Fixing the problems found in everyday use, and recording a full build for video.' },
-  { h: 'Terraville, game use cases', t: 'The world model runs three small game modes (zombie survival, pirates and sharks, a scavenger hunt) as data packs.' },
-  { h: 'Parts and items', t: 'A small model for part lists, and an item library of 1,461 names that unknown words are matched against.' },
-  { h: 'Recorded sessions', t: 'Every build is saved as a short list of checked tool calls that replays the same way every time.' },
+  { h: 'Maris3D, next version', t: 'A larger test set and better scene building.' },
+  { h: 'Terraville, game use cases', t: 'The world model runs three small game modes (zombie survival, pirate defence, a scavenger hunt) as data packs.' },
+  { h: 'The Orchestrator (planned)', t: 'A quiet conductor for small AI models. It picks the right small model for each job, runs on your own machine or in a web page, and checks every action before it runs.' },
+  { h: 'Recorded sessions', t: 'Reprise: a recorded build kept as a list of checked tool calls. One sample exists; the replayer does not yet.' },
 ]
 
 function Workshop() {
   return (
-    <Section id="workshop" n="05 / in the workshop" title="What is being built, and how.">
+    <Section id="workshop" n="04 / in the workshop" title="What is being built, and how.">
       <div className="shelf">
         {WORK.map((w, i) => (
           <Reveal key={w.h} delay={0.08 * i}>
@@ -324,26 +339,13 @@ function Workshop() {
           </Reveal>
         ))}
       </div>
-      <Reveal>
-        <div className="prose muted">
-          <p>
-            Much of the day-to-day work is done by coding agents that take a ticket, work on it in the open and report back.
-            Every task is one ticket with a status, a plan and a list of files it touches. A watchdog restarts agents that stall
-            and nudges a person when a request goes unseen. Agents can propose; only a person closes a ticket.
-          </p>
-          <p>
-            Nothing is released on an agent&apos;s word. A release goes through a written gate: measured numbers only, a scan for secrets and
-            private paths, and a person&apos;s approval.
-          </p>
-        </div>
-      </Reveal>
     </Section>
   )
 }
 
 function Downloads() {
   return (
-    <Section id="get" n="06 / get it" title="Get Maris3D.">
+    <Section id="get" n="05 / get it" title="Get Maris3D.">
       <div className="cols">
         <Reveal>
           <div className="box">
@@ -386,7 +388,7 @@ maris3d install`}</pre>
 
 function About() {
   return (
-    <Section id="about" n="07 / about" title="About slm4apps.">
+    <Section id="about" n="06 / about" title="About slm4apps.">
       <Reveal>
         <div className="prose muted">
           <p>
@@ -394,7 +396,7 @@ function About() {
             The aim is useful software that is private, free to run and small enough for the computer you already have.
           </p>
           <p>
-            Models and documentation are published openly. Training is done on home hardware and the results are given away.
+            Models and documentation are published openly. 
             Questions and ideas are welcome as issues on <a href={REPO}>GitHub</a>.
           </p>
         </div>
@@ -405,7 +407,7 @@ function About() {
 
 function Licences() {
   return (
-    <Section id="licences" n="08 / licences" title="Licences.">
+    <Section id="licences" n="07 / licences" title="Licences.">
       <Reveal>
         <div className="table-wrap">
           <table className="lic">
@@ -417,7 +419,7 @@ function Licences() {
             </tbody>
           </table>
         </div>
-        <p className="small">Full terms in <a href={LICENSING}>docs/LICENSING.md</a>. Blender is a trademark of the Blender Foundation; &quot;Qwen&quot; is a trademark of Alibaba Cloud.</p>
+        <p className="small">Full terms in <a href={LICENSING}>docs/LICENSING.md</a>.</p>
       </Reveal>
     </Section>
   )
@@ -430,11 +432,10 @@ function Footer() {
         <a href="https://github.com/slm4apps">GitHub</a>
         <a href="https://huggingface.co/slm4apps">Hugging Face</a>
         <a href={MARIS3D}>Maris3D</a>
-        <a href={TERRAVILLE_DEMO}>Terraville</a>
+        <a href={TERRAVILLE_PAGE}>Terraville</a>
         <a href={`${REPO}/issues`}>Issues and questions</a>
       </p>
       <p>Models, code and docs are Apache-2.0. The Blender add-on is GPL-3.0-or-later. See <a href="#licences">Licences</a>.</p>
-      <p>Blender is a trademark of the Blender Foundation. slm4apps and Maris3D are not affiliated with or endorsed by it.</p>
       <p className="small">This page uses no trackers, no cookies and no outside servers.</p>
     </footer>
   )
@@ -444,11 +445,9 @@ export function Sections() {
   return (
     <main id="story">
       <WhatWeDo />
-      <SentenceToCall />
       <Family />
       <Timeline />
       <Workshop />
-      <Downloads />
       <About />
       <Licences />
       <Footer />

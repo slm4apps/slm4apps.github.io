@@ -73,7 +73,10 @@ if os.path.exists(PRIVATE_RULES):
 ALLOW_MARK = "scan: " + "allow"
 # Rules that legitimately match in some files: letter-and-digit part names in the recipe data,
 # and the fixed text of licences (owners, dates of publication).
-RULE_SKIPS = [("process:", re.compile(r"(?:^|/)(?:LICEN[CS]E[^/]*|LICENSES/.*|NOTICE[^/]*|recipes\.json)$"))]
+RULE_SKIPS = [("process:", re.compile(r"(?:^|/)(?:LICEN[CS]E[^/]*|LICENSES/.*|NOTICE[^/]*|recipes\.json)$")),
+              # built web bundles (hashed, minified): short variable names and CSS colour codes look like step and ticket ids
+              ("process:", re.compile(r"(?:^|/)assets/[\w.-]+-[A-Za-z0-9_-]{8}\.(?:js|css)$")),
+              ("ticket:hash-number", re.compile(r"(?:^|/)assets/[\w.-]+-[A-Za-z0-9_-]{8}\.(?:js|css)$"))]
 # The 0.1 weights were trained with this system sentence (the project's name before Maris3D). 0.1 ships as it was
 # trained, so this exact sentence may carry the old name; nothing else may.
 FROZEN_0_1 = re.compile(re.escape("You are SLM4" + "Blender-0.5B, a compact local model by slm4apps"))

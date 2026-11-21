@@ -42,10 +42,10 @@ export default function Hero() {
     <header className="hero" ref={ref}>
       <nav className="hero-nav" aria-label="Sections">
         <a href="#what">Small models</a>
-        <a href="#calls">How it works</a>
+        <a href="https://slm4apps.github.io/maris3d/">Maris3D</a>
+        <a href="https://slm4apps.github.io/terraville/">Terraville</a>
         <a href="#family">Products</a>
         <a href="#workshop">Workshop</a>
-        <a href="#get">Get it</a>
         <a href="#about">About</a>
         <a href="#licences">Licences</a>
       </nav>
@@ -100,9 +100,9 @@ export default function Hero() {
           slm4apps builds small language models for the apps you already use. They run on your own computer, with no cloud and no account.
         </p>
         <div className="hero-actions">
-          <a className="btn" href="https://slm4apps.github.io/maris3d/">Meet Maris3D</a>
-          <a className="btn ghost" href="#get">Downloads</a>
-          <a className="btn ghost" href="#what">What we do</a>
+          <a className="btn" href="#family">Our models</a>
+          <a className="btn ghost" href="https://slm4apps.github.io/maris3d/">Maris3D</a>
+          <a className="btn ghost" href="https://slm4apps.github.io/terraville/">Terraville</a>
         </div>
       </div>
       <p className="hero-hint">{use3d ? 'Move the mouse: the field bends.' : ''}</p>

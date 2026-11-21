@@ -16,13 +16,13 @@ function ScrollThread() {
   )
 }
 
-const THEMES: [string, string, string][] = [['ink', 'Ink', '#15130F'], ['paper', 'Paper', '#F6F1E7'], ['teal', 'Maris teal', '#2EC4B6'], ['sand', 'Sand', '#D9D0BD']]
+const THEMES: [string, string, string][] = [['ink', 'Ink', '#15130F'], ['paper', 'Paper', '#F6F1E7'], ['signal', 'Signal', '#FF5A1F'], ['sand', 'Sand', '#D9D0BD']]
 
 function Themes() {
-  const [t, setT] = useState(() => { try { return localStorage.getItem('theme') || '' } catch { return '' } })
+  const [t, setT] = useState(() => { try { const v = localStorage.getItem('theme') || ''; return ['ink', 'paper', 'signal', 'sand'].includes(v) ? v : '' } catch { return '' } })
   useEffect(() => { if (t) document.documentElement.dataset.theme = t }, [t])
   return (
-    <div className="themes" role="group" aria-label="Colour theme">
+    <div className="themes" role="group" aria-label="Colour theme"><span className="themes-label">Theme</span>
       {THEMES.map(([k, n, c]) => (
         <button key={k} style={{ background: c }} aria-label={n} title={n} aria-pressed={t === k} onClick={() => { setT(k); try { localStorage.setItem('theme', k) } catch { /* ignore */ } }} />
       ))}
