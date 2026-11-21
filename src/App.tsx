@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Lenis from 'lenis'
 import { motion, useScroll } from 'framer-motion'
 import Hero from './components/Hero'
@@ -13,6 +13,20 @@ function ScrollThread() {
       <path d="M20 0 C 38 120, 2 220, 20 340 S 38 560, 20 680 S 2 880, 20 1000" fill="none" stroke="rgba(242,181,68,.15)" strokeWidth="2" vectorEffect="non-scaling-stroke" />
       <motion.path d="M20 0 C 38 120, 2 220, 20 340 S 38 560, 20 680 S 2 880, 20 1000" fill="none" stroke="#F2B544" strokeWidth="2" strokeLinecap="round" vectorEffect="non-scaling-stroke" style={{ pathLength: scrollYProgress }} />
     </svg>
+  )
+}
+
+const THEMES: [string, string, string][] = [['ink', 'Ink', '#15130F'], ['paper', 'Paper', '#F6F1E7'], ['teal', 'Maris teal', '#2EC4B6'], ['sand', 'Sand', '#D9D0BD']]
+
+function Themes() {
+  const [t, setT] = useState(() => { try { return localStorage.getItem('theme') || '' } catch { return '' } })
+  useEffect(() => { if (t) document.documentElement.dataset.theme = t }, [t])
+  return (
+    <div className="themes" role="group" aria-label="Colour theme">
+      {THEMES.map(([k, n, c]) => (
+        <button key={k} style={{ background: c }} aria-label={n} title={n} aria-pressed={t === k} onClick={() => { setT(k); try { localStorage.setItem('theme', k) } catch { /* ignore */ } }} />
+      ))}
+    </div>
   )
 }
 
@@ -37,6 +51,7 @@ export default function App() {
     <>
       <a className="skip" href="#story">Skip to the story</a>
       {!env.reduced && <ScrollThread />}
+      <Themes />
       <Hero />
       <Sections />
     </>

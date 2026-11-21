@@ -8,6 +8,9 @@ const LICENSING = `${REPO}/blob/main/docs/LICENSING.md`
 const HF_MODEL = 'https://huggingface.co/slm4apps/Maris3D-Blender'
 const HF_ORG = 'https://huggingface.co/slm4apps'
 const GH_ORG = 'https://github.com/slm4apps'
+const TERRAVILLE_REPO = 'https://github.com/slm4apps/terraville'
+const TERRAVILLE_HF = 'https://huggingface.co/slm4apps/Terraville'
+const TERRAVILLE_DEMO = 'https://huggingface.co/spaces/slm4apps/Terraville'
 const MARIS3D = 'https://slm4apps.github.io/maris3d/'
 const reduced = () => typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -223,8 +226,8 @@ function SentenceToCall() {
 function TiltCard() {
   const x = useMotionValue(0)
   const y = useMotionValue(0)
-  const rx = useSpring(useTransform(y, [-0.5, 0.5], [9, -9]), { stiffness: 200, damping: 18 })
-  const ry = useSpring(useTransform(x, [-0.5, 0.5], [-9, 9]), { stiffness: 200, damping: 18 })
+  const rx = useSpring(useTransform(y, [-0.5, 0.5], [3, -3]), { stiffness: 120, damping: 24 })
+  const ry = useSpring(useTransform(x, [-0.5, 0.5], [-3, 3]), { stiffness: 120, damping: 24 })
   return (
     <motion.a
       className="model-card live"
@@ -248,10 +251,19 @@ function TiltCard() {
 
 function Family() {
   return (
-    <Section id="family" n="03 / products" title="One model per app. The first is on the shelf.">
+    <Section id="family" n="03 / products" title="One model per app. Two are on the shelf.">
       <div className="shelf">
         <Reveal><TiltCard /></Reveal>
-        {[0, 1, 2].map((i) => (
+        <Reveal delay={0.1}>
+          <a className="model-card live" href={TERRAVILLE_DEMO}>
+            <img src={`${BASE}brand/terraville-icon.svg`} width={64} height={64} alt="" />
+            <span className="status">Live</span>
+            <b>Terraville, an open-world model</b>
+            <span>A 5.86 million parameter model that turns words into worlds, items and styles. It runs in the page, with no server. Words in. Worlds out.</span>
+            <em>Try the demo</em>
+          </a>
+        </Reveal>
+        {[1, 2].map((i) => (
           <Reveal key={i} delay={0.1 * (i + 1)}>
             <div className="model-card empty" aria-label="An empty slot for the next model">
               <span className="status">Next</span>
@@ -295,24 +307,69 @@ function Timeline() {
   )
 }
 
+const WORK = [
+  { h: 'Maris3D, next version', t: 'Fixing the problems found in everyday use, and recording a full build for video.' },
+  { h: 'Terraville, game use cases', t: 'The world model runs three small game modes (zombie survival, pirates and sharks, a scavenger hunt) as data packs.' },
+  { h: 'Parts and items', t: 'A small model for part lists, and an item library of 1,461 names that unknown words are matched against.' },
+  { h: 'Recorded sessions', t: 'Every build is saved as a short list of checked tool calls that replays the same way every time.' },
+]
+
+function Workshop() {
+  return (
+    <Section id="workshop" n="05 / in the workshop" title="What is being built, and how.">
+      <div className="shelf">
+        {WORK.map((w, i) => (
+          <Reveal key={w.h} delay={0.08 * i}>
+            <div className="model-card empty"><b>{w.h}</b><span>{w.t}</span></div>
+          </Reveal>
+        ))}
+      </div>
+      <Reveal>
+        <div className="prose muted">
+          <p>
+            Much of the day-to-day work is done by coding agents that take a ticket, work on it in the open and report back.
+            Every task is one ticket with a status, a plan and a list of files it touches. A watchdog restarts agents that stall
+            and nudges a person when a request goes unseen. Agents can propose; only a person closes a ticket.
+          </p>
+          <p>
+            Nothing is released on an agent&apos;s word. A release goes through a written gate: measured numbers only, a scan for secrets and
+            private paths, and a person&apos;s approval.
+          </p>
+        </div>
+      </Reveal>
+    </Section>
+  )
+}
+
 function Downloads() {
   return (
-    <Section id="get" n="05 / get it" title="Downloads and code.">
+    <Section id="get" n="06 / get it" title="Get Maris3D.">
       <div className="cols">
         <Reveal>
           <div className="box">
             <h3>Maris3D model</h3>
-            <p>The GGUF model file on Hugging Face.</p>
+            <p>The model file (GGUF) on Hugging Face. This is the first model; each future model gets its own box here.</p>
             <div className="links">
               <a className="btn" href={HF_MODEL}>Model on Hugging Face</a>
               <a className="btn ghost" href={HF_ORG}>slm4apps on Hugging Face</a>
             </div>
           </div>
         </Reveal>
+        <Reveal delay={0.05}>
+          <div className="box">
+            <h3>Terraville</h3>
+            <p>The model weights, the demo page and the code. Open the demo in any browser; nothing to install.</p>
+            <div className="links">
+              <a className="btn" href={TERRAVILLE_DEMO}>Demo</a>
+              <a className="btn ghost" href={TERRAVILLE_HF}>Model on Hugging Face</a>
+              <a className="btn ghost" href={TERRAVILLE_REPO}>Code on GitHub</a>
+            </div>
+          </div>
+        </Reveal>
         <Reveal delay={0.1}>
           <div className="box">
-            <h3>Code, add-on and docs</h3>
-            <p>Install with the command line tool from the repository:</p>
+            <h3>Maris3D code, add-on and docs</h3>
+            <p>The Blender add-on and its installer are part of the source repository (there is no packaged download yet), so you fetch the repository once and run the installer, which puts the add-on into Blender:</p>
             <pre className="cmd">{`git clone ${REPO} && cd maris3d
 pip install -e .
 maris3d install`}</pre>
@@ -329,7 +386,7 @@ maris3d install`}</pre>
 
 function About() {
   return (
-    <Section id="about" n="06 / about" title="About slm4apps.">
+    <Section id="about" n="07 / about" title="About slm4apps.">
       <Reveal>
         <div className="prose muted">
           <p>
@@ -348,7 +405,7 @@ function About() {
 
 function Licences() {
   return (
-    <Section id="licences" n="07 / licences" title="Licences.">
+    <Section id="licences" n="08 / licences" title="Licences.">
       <Reveal>
         <div className="table-wrap">
           <table className="lic">
@@ -373,9 +430,10 @@ function Footer() {
         <a href="https://github.com/slm4apps">GitHub</a>
         <a href="https://huggingface.co/slm4apps">Hugging Face</a>
         <a href={MARIS3D}>Maris3D</a>
+        <a href={TERRAVILLE_DEMO}>Terraville</a>
         <a href={`${REPO}/issues`}>Issues and questions</a>
       </p>
-      <p>Models and docs are Apache-2.0. The Blender add-on is GPL-3.0-or-later. See <a href="#licences">Licences</a>.</p>
+      <p>Models, code and docs are Apache-2.0. The Blender add-on is GPL-3.0-or-later. See <a href="#licences">Licences</a>.</p>
       <p>Blender is a trademark of the Blender Foundation. slm4apps and Maris3D are not affiliated with or endorsed by it.</p>
       <p className="small">This page uses no trackers, no cookies and no outside servers.</p>
     </footer>
@@ -389,6 +447,7 @@ export function Sections() {
       <SentenceToCall />
       <Family />
       <Timeline />
+      <Workshop />
       <Downloads />
       <About />
       <Licences />

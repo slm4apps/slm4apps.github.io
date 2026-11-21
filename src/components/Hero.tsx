@@ -44,6 +44,7 @@ export default function Hero() {
         <a href="#what">Small models</a>
         <a href="#calls">How it works</a>
         <a href="#family">Products</a>
+        <a href="#workshop">Workshop</a>
         <a href="#get">Get it</a>
         <a href="#about">About</a>
         <a href="#licences">Licences</a>
