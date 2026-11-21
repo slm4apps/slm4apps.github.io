@@ -14,7 +14,7 @@ const TERRAVILLE_DEMO = 'https://huggingface.co/spaces/slm4apps/Terraville'
 const MARIS3D = 'https://slm4apps.github.io/maris3d/'
 const TERRAVILLE_PAGE = 'https://slm4apps.github.io/terraville/'
 const SCENEBENCH = 'https://github.com/slm4apps/scenebench'
-const REPRISE = 'https://github.com/slm4apps/reprise'
+const REELS = 'https://github.com/slm4apps/reels'
 const reduced = () => typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches
 
 function Reveal({ children, delay = 0 }: { children: ReactNode; delay?: number }) {
@@ -285,7 +285,7 @@ function Family() {
         <Reveal delay={0.3}>
           <div className="model-card empty">
             <span className="status">Planned</span>
-            <b>Reprise</b>
+            <b>Reels</b>
             <span>A way to record a checked tool-call session and run it again. Today there is one recorded sample and a written plan.</span>
             <em>Planned</em>
           </div>
@@ -326,7 +326,7 @@ const WORK = [
   { h: 'Maris3D, next version', t: 'A larger test set and better scene building.' },
   { h: 'Terraville, game use cases', t: 'The world model runs three small game modes (zombie survival, pirate defence, a scavenger hunt) as data packs.' },
   { h: 'The Orchestrator (planned)', t: 'A quiet conductor for small AI models. It picks the right small model for each job, runs on your own machine or in a web page, and checks every action before it runs.' },
-  { h: 'Recorded sessions', t: 'Reprise: a recorded build kept as a list of checked tool calls. One sample exists; the replayer does not yet.' },
+  { h: 'Recorded sessions', t: 'Reels: a recorded build kept as a list of checked tool calls. One sample exists; the replayer does not yet.' },
 ]
 
 function Workshop() {
