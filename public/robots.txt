@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://slm4apps.github.io/sitemap.xml

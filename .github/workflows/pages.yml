@@ -1,0 +1,50 @@
+# DRAFT (not pushed). Becomes .github/workflows/pages.yml in the future repo slm4apps/slm4apps.github.io,
+# where the contents of this folder are the repo root. Deploys https://slm4apps.github.io/ (Vite base '/').
+# Same steps as the Maris3D workflow.
+name: pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build
+      - name: No private data in the site sources
+        # The bundled three.js library in dist is not scanned (look-alike false hits); only sources are.
+        if: ${{ hashFiles('scripts/scan_private.py') != '' }}
+        run: |
+          python3 scripts/scan_private.py $(find src public index.html -type f \( -name '*.html' -o -name '*.js' -o -name '*.css' -o -name '*.json' -o -name '*.svg' -o -name '*.ts' -o -name '*.tsx' \))
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

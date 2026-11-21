@@ -1,0 +1,45 @@
+{
+ "source": "demo/christmas-street take, recorded run",
+ "examples": [
+  {
+   "kind": "cylinder",
+   "sentence": "Add a cylinder named TableTop at -2.0, 0.6, 0.75 with a radius of 0.7 and a depth of 0.05.",
+   "call": {
+    "tool": "add_primitive",
+    "part": "TableTop",
+    "t_ms": 2000,
+    "corrected": false
+   }
+  },
+  {
+   "kind": "torus",
+   "sentence": "Add a torus named CupHandle at -1.44, 0.75, 0.88 with a major radius of 0.06 and a minor radius of 0.015.",
+   "call": {
+    "tool": "add_primitive",
+    "part": "CupHandle",
+    "t_ms": 8200,
+    "corrected": false
+   }
+  },
+  {
+   "kind": "cube",
+   "sentence": "Add a cube named Book1 at -2.45, 0.7, 0.79 with a scale of 0.17, 0.12, 0.03.",
+   "call": {
+    "tool": "add_primitive",
+    "part": "Book1",
+    "t_ms": 10300,
+    "corrected": false
+   }
+  },
+  {
+   "kind": "sphere",
+   "sentence": "Add an ico sphere named Leaf1 at -2.05, 0.2, 1.02 with a scale of 0.05, 0.08, 0.14.",
+   "call": {
+    "tool": "add_primitive",
+    "part": "Leaf1",
+    "t_ms": 16400,
+    "corrected": false
+   }
+  }
+ ]
+}
