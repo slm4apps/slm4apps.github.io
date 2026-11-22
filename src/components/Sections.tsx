@@ -1,3 +1,4 @@
+import { Contribute } from './Contribute'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { motion, useInView, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import { BASE, useExamples, type Example } from '../env'
@@ -66,11 +67,11 @@ const CARDS = [
   {
     key: 'Small',
     front: 'Small',
-    tag: 'Half a billion parameters.',
+    tag: 'From 5.86 million to half a billion.',
     back: (
       <>
         <div className="sizebar"><i /></div>
-        <p>The first model has 0.5 billion parameters. Its base file is 531 MB, and on an 8 GB Mac it uses about 0.58 GB of memory.</p>
+        <p>Terraville has 5.86 million parameters and runs in a browser tab. Maris3D has 0.5 billion: its base file is 531 MB, and on an 8 GB Mac it uses about 0.58 GB of memory.</p>
       </>
     ),
   },
@@ -81,7 +82,7 @@ const CARDS = [
     back: (
       <>
         <div className="icon"><WifiOff /></div>
-        <p>It runs on an 8 GB laptop with no network, no account and no API key. On an 8 GB Mac one answer takes about 0.6 seconds. Your prompts and your files stay on your machine.</p>
+        <p>Our models run on the computer you already own, with no network, no account and no API key. Maris3D runs on an 8 GB laptop. On an 8 GB Mac one Maris3D answer takes about 0.6 seconds. Your prompts and your files stay on your machine.</p>
       </>
     ),
   },
@@ -92,7 +93,7 @@ const CARDS = [
     back: (
       <>
         <div className="icon"><MiniCall /></div>
-        <p>It was trained on a fixed set of 26 tools. It returns a tool call; the host runs it in the app and tells the model what happened.</p>
+        <p>Each model is trained on one app&apos;s fixed set of tools (Maris3D: 26 Blender tools). It returns a tool call; the host runs it in the app and tells the model what happened.</p>
       </>
     ),
   },
@@ -126,6 +127,19 @@ function WhatWeDo() {
             reads the result back, and the model is told what happened. The work that needs exact numbers is done by code, not by the model.
           </p>
         </div>
+      </Reveal>
+      <Reveal>
+        <div className="table-wrap">
+          <table className="lic">
+            <thead><tr><th scope="col">Instead of</th><th scope="col">slm4apps</th><th scope="col">So you get</th></tr></thead>
+            <tbody>
+              <tr><td>A large assistant in someone else&apos;s data centre</td><td>A small model trained on one app&apos;s tools</td><td>Privacy: nothing leaves your machine</td></tr>
+              <tr><td>Answers you have to trust</td><td>Tool calls that run in the real app and are read back and checked</td><td>Results you can see and verify</td></tr>
+              <tr><td>A subscription and an API key</td><td>Open weights and open code, Apache-2.0</td><td>Free to run, yours to keep</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p className="small">For people who already work in an app, such as Blender or a game, and want help that runs on their own computer.</p>
       </Reveal>
       <div className="flips">
         {CARDS.map((c, i) => (
@@ -254,7 +268,7 @@ function TiltCard() {
 
 function Family() {
   return (
-    <Section id="family" n="02 / our models" title="One small model per app.">
+    <Section id="family" n="02 / products" title="One small model per app, and the tools around them.">
       <div className="shelf">
         <Reveal>
           <a className="model-card live" href={MARIS3D}>
@@ -276,6 +290,14 @@ function Family() {
         </Reveal>
         <Reveal delay={0.2}>
           <div className="model-card empty">
+            <span className="status">Planned</span>
+            <b>The Orchestrator</b>
+            <span>A quiet conductor for small AI models. It picks the right small model for each job, runs on your own machine or in a web page, and checks every action before it runs.</span>
+            <em>Planned</em>
+          </div>
+        </Reveal>
+        <Reveal delay={0.25}>
+          <div className="model-card empty">
             <span className="status">Coming soon</span>
             <b>SLM4Apps SceneBench 1.0</b>
             <span>One yardstick for small models that build scenes with tools: 4,245 items, every score measured and shown with its set size.</span>
@@ -286,7 +308,7 @@ function Family() {
           <div className="model-card empty">
             <span className="status">Planned</span>
             <b>Reels</b>
-            <span>A way to record a checked tool-call session and run it again. Today there is one recorded sample and a written plan.</span>
+            <span>Keep a scene as a small text file: every tool call and the app's answer. Replay it with no model, see what changed between versions in git, share it in a few kilobytes. Today there is one recorded sample and a written plan.</span>
             <em>Planned</em>
           </div>
         </Reveal>
@@ -298,7 +320,7 @@ function Family() {
 /* ---------- how we build ---------- */
 
 const STEPS = [
-  { h: 'Start from a small base', t: 'Qwen2.5-Coder-0.5B-Instruct, an open model from the Qwen team, used as the starting point.' },
+  { h: 'Start from a small base', t: 'An open model is the starting point. Maris3D starts from Qwen2.5-Coder-0.5B-Instruct, from the Qwen team.' },
   { h: 'Teach it one app', t: 'A small add-on file teaches the base model the tools of that app, and nothing else.' },
   { h: 'Let code do the exact work', t: 'The model plans in words. Code computes positions and sizes and makes each part, so the numbers are exact.' },
   { h: 'Check the result in the app', t: 'Every call runs in the real app, and a check reads the finished scene back and corrects it.' },
@@ -307,7 +329,7 @@ const STEPS = [
 
 function Timeline() {
   return (
-    <Section id="build" n="03 / how we build" title="How Maris3D is built.">
+    <Section id="build" n="03 / how we build" title="How we build a model, with Maris3D as the example.">
       <ol className="timeline">
         {STEPS.map((s, i) => (
           <motion.li key={s.h} initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.6, delay: 0.05 }}>
@@ -325,8 +347,6 @@ function Timeline() {
 const WORK = [
   { h: 'Maris3D, next version', t: 'A larger test set and better scene building.' },
   { h: 'Terraville, game use cases', t: 'The world model runs three small game modes (zombie survival, pirate defence, a scavenger hunt) as data packs.' },
-  { h: 'The Orchestrator (planned)', t: 'A quiet conductor for small AI models. It picks the right small model for each job, runs on your own machine or in a web page, and checks every action before it runs.' },
-  { h: 'Recorded sessions', t: 'Reels: a recorded build kept as a list of checked tool calls. One sample exists; the replayer does not yet.' },
 ]
 
 function Workshop() {
@@ -343,52 +363,9 @@ function Workshop() {
   )
 }
 
-function Downloads() {
-  return (
-    <Section id="get" n="05 / get it" title="Get Maris3D.">
-      <div className="cols">
-        <Reveal>
-          <div className="box">
-            <h3>Maris3D model</h3>
-            <p>The model file (GGUF) on Hugging Face. This is the first model; each future model gets its own box here.</p>
-            <div className="links">
-              <a className="btn" href={HF_MODEL}>Model on Hugging Face</a>
-              <a className="btn ghost" href={HF_ORG}>slm4apps on Hugging Face</a>
-            </div>
-          </div>
-        </Reveal>
-        <Reveal delay={0.05}>
-          <div className="box">
-            <h3>Terraville</h3>
-            <p>The model weights, the demo page and the code. Open the demo in any browser; nothing to install.</p>
-            <div className="links">
-              <a className="btn" href={TERRAVILLE_DEMO}>Demo</a>
-              <a className="btn ghost" href={TERRAVILLE_HF}>Model on Hugging Face</a>
-              <a className="btn ghost" href={TERRAVILLE_REPO}>Code on GitHub</a>
-            </div>
-          </div>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <div className="box">
-            <h3>Maris3D code, add-on and docs</h3>
-            <p>The Blender add-on and its installer are part of the source repository (there is no packaged download yet), so you fetch the repository once and run the installer, which puts the add-on into Blender:</p>
-            <pre className="cmd">{`git clone ${REPO} && cd maris3d
-pip install -e .
-maris3d install`}</pre>
-            <div className="links">
-              <a className="btn" href={REPO}>Maris3D on GitHub</a>
-              <a className="btn ghost" href={GH_ORG}>slm4apps on GitHub</a>
-            </div>
-          </div>
-        </Reveal>
-      </div>
-    </Section>
-  )
-}
-
 function About() {
   return (
-    <Section id="about" n="06 / about" title="About slm4apps.">
+    <Section id="about" n="05 / about" title="About slm4apps.">
       <Reveal>
         <div className="prose muted">
           <p>
@@ -415,7 +392,7 @@ function Licences() {
             <tbody>
               <tr><td>Code, documentation and model weights</td><td>Apache-2.0</td></tr>
               <tr><td>Files that run inside Blender (the add-on)</td><td>GPL-3.0-or-later, like Blender</td></tr>
-              <tr><td>Base model Qwen2.5-Coder-0.5B-Instruct (Alibaba Cloud / Qwen team)</td><td>Apache-2.0</td></tr>
+              <tr><td>Maris3D base model Qwen2.5-Coder-0.5B-Instruct (Alibaba Cloud / Qwen team)</td><td>Apache-2.0</td></tr>
             </tbody>
           </table>
         </div>
@@ -449,6 +426,19 @@ export function Sections() {
       <Timeline />
       <Workshop />
       <About />
+      <Contribute
+        n="06 / contribute"
+        title="Help build it."
+        intro="Everything here is open, and the next models, adapters and apps are meant to be built with other people. You do not need to write code to help."
+        items={[
+          { h: 'Contribute to a project', t: 'Fixes, tests, docs and benchmark prompts across the projects. Small pull requests, tests passing, numbers reproducible.', cta: 'How to contribute', href: `${REPO}/blob/main/CONTRIBUTING.md` },
+          { h: 'Build the next adapter', t: 'Teach a small model another job or another app\u2019s tools. Open an issue first so we agree the plan.', cta: 'Open a feature idea', href: `${REPO}/issues/new?template=feature_idea.md` },
+          { h: 'Integrate the next application', t: 'Bring Maris3D to another app, or propose one. A new app is mostly a new plugin that talks to the same models.', cta: 'See the roadmap', href: `${REPO}/blob/main/ROADMAP.md` },
+          { h: 'Build a Terraville pack', t: 'Terraville\u2019s game modes are data packs. Make the next one.', cta: 'Terraville on GitHub', href: TERRAVILLE_REPO },
+          { h: 'Send a failed prompt', t: 'A sentence that built the wrong thing, with what you expected, is the most useful report we get.', cta: 'Send one', href: `${REPO}/issues/new?template=failed_prompt.md` },
+          { h: 'See every project', t: 'All repositories and models are public.', cta: 'slm4apps on GitHub', href: GH_ORG },
+        ]}
+      />
       <Licences />
       <Footer />
     </main>
